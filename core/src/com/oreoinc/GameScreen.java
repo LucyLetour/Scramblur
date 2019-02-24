@@ -3,6 +3,7 @@ package com.oreoinc;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -98,10 +99,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        image = new Texture(Gdx.files.internal("pictures/" + currentImage.name() + ".jpg"));//scramble calculateRadius();
-
-
-
+        image = new Texture(new Pixmap(0, 0, Pixmap.Format.RGBA8888));
         if(!timeHasElapsed) {
             if(timeElapsedS > ALLOTED_TIME_S) {
                 timeElapsedS = 0;
@@ -109,7 +107,8 @@ public class GameScreen implements Screen {
             }
             else {
                 if(scrambleTimeElapsed > SCRAMBLE_TIME_S) {
-
+                    Pixmap pixmap = Scrambler.scramble(new Pixmap(Gdx.files.internal("pictures/" + currentImage.name() + ".jpg")), (int)calculateRadius());
+                    image = new Texture(pixmap);//scramble calculateRadius();
                 }
             }
         }

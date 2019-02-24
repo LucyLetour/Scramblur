@@ -10,7 +10,9 @@ public class ColorParser {
                 newStr += "0";
                 numToFill--;
             } while(numToFill >= 0);
+            colStr = newStr + colStr;
         }
+
         if(channel.equals("red")) colStr = colStr.substring(0, 2);
         else if(channel.equals("green")) colStr = colStr.substring(2, 4);
         else if(channel.equals("blue")) colStr = colStr.substring(4, 6);

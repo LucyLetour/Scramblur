@@ -25,13 +25,14 @@ public class Scrambler {
         final int width = pixels.getWidth(), height = pixels.getHeight(), radius = maxRadius;
         Pixmap scrambled = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         List<Pixel> valids = new ArrayList<Pixel>();
-
+        System.out.println("herro");
         for(int xActual = 0; xActual < width; xActual++) {
             for(int yActual = 0; yActual < height; yActual++) {
                 for(int i = 0; i < width; i++) {
                     for(int j = 0; j < height; j++) {
                         if(isValidPix(pixels, i, j, xActual, yActual, radius)) {
                             valids.add(new Pixel(i, j, pixels.getPixel(i, j)));
+                            System.out.println("wowwed");
                         }
                     }
                 }
