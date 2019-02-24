@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static jdk.nashorn.internal.objects.Global.println;
+
 public class GameScreen implements Screen {
     private Image currentImage;
     private double timeElapsedS;
@@ -107,7 +109,7 @@ public class GameScreen implements Screen {
             }
             else {
                 if(scrambleTimeElapsed > SCRAMBLE_TIME_S) {
-                    Pixmap pixmap = Scrambler.scramble(new Pixmap(Gdx.files.internal("pictures/" + currentImage.name() + ".jpg")), (int)calculateRadius());
+                    Pixmap pixmap = Pixelizer.INSTANCE.scramble(new Pixmap(Gdx.files.internal("pictures/" + currentImage.name() + ".jpg")), (int)calculateRadius());
                     image = new Texture(pixmap);//scramble calculateRadius();
                 }
             }
