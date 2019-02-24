@@ -1,5 +1,6 @@
 package com.oreoinc;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -37,6 +38,8 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private Texture image;
 
+    private Game game;
+
     public enum Image {
         CAMERA("camera"), DOG("dog"), ELEPHANT("elephant"), FISH("fish"), TAJ_MAHAL("taj mahal"), TAXI("taxi"), COMPUTER("computer"),
         SODA("soda"), BUS("bus"), CHAIR("chair"), LEAVES("leaves"), LIGHTBULB("light bulb"), LION("lion"), PHONE("phone");
@@ -52,7 +55,7 @@ public class GameScreen implements Screen {
         }
     }
 
-    public GameScreen() {
+    public GameScreen(Game game) {
         images = new ArrayList<Image>();
         Collections.addAll(images, Image.values());
         Collections.shuffle(images);
@@ -61,6 +64,7 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         points = 0;
         stage = new Stage();
+        this.game = game;
         Skin skin = new Skin(Gdx.files.internal("skins/skin/uiskin.json"));
         final TextField textField = new TextField("", skin);
         textField.setPosition(5, 5);
@@ -117,11 +121,14 @@ public class GameScreen implements Screen {
             if (timeElapsedS > WAIT_TIME_S) {
                 timeElapsedS = 0;
                 timeHasElapsed = false;
-                currentImage = images.remove(0);
+                if(images.size() > 0) {
+                    currentImage = images.remove(0);
+                }
+                else {
+                    game.setScreen(new EndScreen(points));
+                }
             }
         }
-
-
 
         timeElapsedS += delta;
         scrambleTimeElapsed += delta;
@@ -165,7 +172,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
+        image.dispose();
     }
     private boolean checkAnswer(String guess) {
         if(guess.toLowerCase().trim().equals(currentImage.getGuessKey())) {
