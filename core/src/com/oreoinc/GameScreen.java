@@ -14,8 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static jdk.nashorn.internal.objects.Global.println;
-
 public class GameScreen implements Screen {
     private Image currentImage;
     private double timeElapsedS;
@@ -71,12 +69,13 @@ public class GameScreen implements Screen {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if(keycode == Input.Keys.ENTER && checkAnswer(textField.getText()) && !timeHasElapsed) {
-                    points++;
+                    points += Math.round(ALLOTED_TIME_S - timeElapsedS);
                     timeHasElapsed = true;
                     timeElapsedS = 0;
                     textField.setText("");
+                    return true;
                 }
-                return true;
+                return false;
             }
         });
 
@@ -110,7 +109,7 @@ public class GameScreen implements Screen {
             else {
                 if(scrambleTimeElapsed > SCRAMBLE_TIME_S) {
                     Pixmap pixmap = Pixelizer.INSTANCE.scramble(new Pixmap(Gdx.files.internal("pictures/" + currentImage.name() + ".jpg")), (int)calculateRadius());
-                    image = new Texture(pixmap);//scramble calculateRadius();
+                    image = new Texture(pixmap);
                 }
             }
         }
@@ -170,7 +169,6 @@ public class GameScreen implements Screen {
     }
     private boolean checkAnswer(String guess) {
         if(guess.toLowerCase().trim().equals(currentImage.getGuessKey())) {
-            timeHasElapsed = true;
             return true;
         }
         return false;
