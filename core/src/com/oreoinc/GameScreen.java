@@ -75,8 +75,10 @@ public class GameScreen implements Screen {
                     timeHasElapsed = true;
                     timeElapsedS = 0;
                     textField.setText("");
+                    System.out.println("ay");
+                    return true;
                 }
-                return true;
+                return false;
             }
         });
 
@@ -170,7 +172,6 @@ public class GameScreen implements Screen {
     }
     private boolean checkAnswer(String guess) {
         if(guess.toLowerCase().trim().equals(currentImage.getGuessKey())) {
-            timeHasElapsed = true;
             return true;
         }
         return false;
