@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
     private final double SCRAMBLE_TIME_S = 0.5; //0.5 seconds
     private final double WAIT_TIME_S = 2; // 2 seconds
 
-    private final double MAX_RADIUS = 100;
+    private final double MAX_RADIUS = 250;
     private final double MIN_RADIUS = 0;
 
     private int points;
@@ -140,7 +140,8 @@ public class GameScreen implements Screen {
 
     public double calculateRadius() {
         double alpha = timeElapsedS / ALLOTED_TIME_S;
-        return (1 - alpha) * MAX_RADIUS + alpha * MIN_RADIUS;
+        //return (1 - alpha) * MAX_RADIUS + alpha * MIN_RADIUS;
+        return ((.2 / (alpha - 1.17)) + 1.17) * MAX_RADIUS;
     }
 
     @Override
