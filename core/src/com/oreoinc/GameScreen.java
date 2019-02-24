@@ -101,7 +101,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        image = new Texture(new Pixmap(0, 0, Pixmap.Format.RGBA8888));
+        image = new Texture(Gdx.files.internal("pictures/" + currentImage.name() + ".jpg"));
         if(!timeHasElapsed) {
             if(timeElapsedS > ALLOTED_TIME_S) {
                 timeElapsedS = 0;
@@ -121,6 +121,8 @@ public class GameScreen implements Screen {
                 currentImage = images.remove(0);
             }
         }
+
+
 
         timeElapsedS += delta;
         scrambleTimeElapsed += delta;
