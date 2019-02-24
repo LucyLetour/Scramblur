@@ -119,7 +119,7 @@ public class GameScreen implements Screen {
                 return true;
             }
         });
-        
+
         timeLeft = new Label("", skin);
         timeLeft.setPosition(800, 0);
         timeLeft.setSize(50, 20);
