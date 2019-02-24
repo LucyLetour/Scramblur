@@ -68,20 +68,35 @@ public class GameScreen implements Screen {
 
     public GameScreen(Game game) {
         images = new ArrayList<Image>();
+
+        //Fill and shuffle the list
         Collections.addAll(images, Image.values());
         Collections.shuffle(images);
+
+        //Get the first image from the list
         currentImage = images.remove(0);
+
+        //Basic initialization
         timeHasElapsed = false;
-        batch = new SpriteBatch();
-        fontBatch = new SpriteBatch();
         points = 0;
         stage = new Stage();
+
         this.game = game;
+
+        //Set to true to the image is pixelated in the beginning and not plain
         firstRender = true;
+
+        //Initialize out Batches to be able to draw
+        batch = new SpriteBatch();
+        fontBatch = new SpriteBatch();
+
+        //Generate our font for "Correct" or "Incorrect"
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Hacked.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 30;
+        parameter.size = 50;
         font = generator.generateFont(parameter);
+
+        //Make our skin so out textfield looks decent
         Skin skin = new Skin(Gdx.files.internal("skins/skin/uiskin.json"));
         final TextField textField = new TextField("", skin);
         textField.setPosition(5, 5);
@@ -90,19 +105,21 @@ public class GameScreen implements Screen {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
                 if(keycode == Input.Keys.ENTER) {
+                    //Enter key pressed
                     if(checkAnswer(textField.getText()) && !timeHasElapsed) {
+                        //User got the answer correct
                         points += Math.round(ALLOTED_TIME_S - timeElapsedS);
                         timeHasElapsed = true;
                         timeElapsedS = 0;
                         correct = true;
                     }
+                    //Reset text field so user doesn't have to backspace everything
                     textField.setText("");
-                    return true;
                 }
                 return true;
             }
         });
-
+        
         timeLeft = new Label("", skin);
         timeLeft.setPosition(800, 0);
         timeLeft.setSize(50, 20);
@@ -126,17 +143,20 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         shouldRenderText = false;
         image = new Texture(Gdx.files.internal("pictures/" + currentImage.name() + ".jpg"));
+
         if(!timeHasElapsed) {
             if(timeElapsedS > ALLOTED_TIME_S) {
-                System.out.println("a");
+                //User ran out of time
                 timeElapsedS = 0;
                 timeHasElapsed = true;
                 correct = false;
             }
             else {
                 if(scrambleTimeElapsed > SCRAMBLE_TIME_S || firstRender) {
+                    //Scramble picture
                     Pixmap pixmap = Pixelizer.INSTANCE.scramble(new Pixmap(Gdx.files.internal("pictures/" + currentImage.name() + ".jpg")), (int)calculateRadius());
                     image = new Texture(pixmap);
+
                     if(scrambleTimeElapsed > SCRAMBLE_TIME_S) {
                         firstRender = false;
                     }
@@ -145,12 +165,16 @@ public class GameScreen implements Screen {
         }
         else {
             if (timeElapsedS > WAIT_TIME_S) {
+                //Reset timer
                 timeElapsedS = 0;
                 timeHasElapsed = false;
+
                 if(images.size() > Image.values().length - ROUNDS_TO_PLAY) {
+                    //If we have played LESS than 6 rounds
                     currentImage = images.remove(0);
                 }
                 else {
+                    //Game over
                     game.setScreen(new EndScreen(points));
                 }
             }
