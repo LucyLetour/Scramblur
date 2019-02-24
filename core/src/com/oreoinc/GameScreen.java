@@ -202,10 +202,13 @@ public class GameScreen implements Screen {
             font.draw(fontBatch, correct ? "Correct!" : "Answer Was:\n" + currentImage.getGuessKey(), 250, 450);
             fontBatch.end();
         }
+        else {
+            //Update time remaining label if the player is currently guessing
+            timeLeft.setText("Time remaining: " + Math.round((timeHasElapsed ? WAIT_TIME_S : ALLOTED_TIME_S) - timeElapsedS));
+        }
 
-        //Update points and time remaining labels
+        //Update player point count
         pointsGained.setText("Points: " + points);
-        timeLeft.setText("Time remaining: " + Math.round((timeHasElapsed ? WAIT_TIME_S : ALLOTED_TIME_S) - timeElapsedS));
 
         //Update stage
         stage.draw();
