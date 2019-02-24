@@ -147,7 +147,7 @@ public class GameScreen implements Screen {
     public double calculateRadius() {
         double alpha = timeElapsedS / ALLOTED_TIME_S;
         //return (1 - alpha) * MAX_RADIUS;
-        return ((.35 / (alpha - 1.27)) + 1.27) * MAX_RADIUS;
+        return ((1 / (alpha + 0.62)) - 0.62) * MAX_RADIUS;
     }
 
     @Override
